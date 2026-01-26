@@ -69,6 +69,9 @@ class Checker(private val block: UntypedBlockNode) {
                     returnStatement(node)
                     break
                 }
+                else -> {
+                    throw ToverieCheckException("未実装の文ノードです")
+                }
             }
         }
     }
@@ -82,10 +85,15 @@ class Checker(private val block: UntypedBlockNode) {
     }
 
     private fun expression(scope: CheckerScope, node: UntypedExpressionNode): ToverieExpression {
-
+        return when (node) {
+            is UntypedUnaryExpressionNode -> unaryExpression(scope, node)
+            else -> {
+                throw ToverieCheckException("未実装の式ノードです")
+            }
+        }
     }
 
-    private fun unaryExpression(scope: CheckerScope, node: UntypedUnaryExpressionNode) {
-
+    private fun unaryExpression(scope: CheckerScope, node: UntypedUnaryExpressionNode): UnaryExpression {
+        val target = expression(scope, node.target)
     }
 }

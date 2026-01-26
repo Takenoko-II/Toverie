@@ -1,5 +1,6 @@
 package com.gmail.takenokoii78.toverie.check
 
+import com.gmail.takenokoii78.toverie.parse.TypeIdentifier
 import java.util.Objects
 
 class ToverieType(val identifier: String, val parameters: List<ToverieType>) {
