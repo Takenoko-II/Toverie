@@ -579,7 +579,7 @@ class Parser(private val tokens: List<Token>) {
             TokenType.STRING -> {
                 val token = peek()
                 next()
-                return UntypedLiteralValueExpressionNode(TypeIdentifier.STR, token.value)
+                return UntypedLiteralValueExpressionNode(TypeIdentifier.STRING, token.value)
             }
             TokenType.WORD -> {
                 return when (val word = readWord()) {
@@ -787,7 +787,7 @@ class Parser(private val tokens: List<Token>) {
             Token(TypeIdentifier.CHAR),
             Token(TypeIdentifier.FLOAT),
             Token(TypeIdentifier.DOUBLE),
-            Token(TypeIdentifier.STR),
+            Token(TypeIdentifier.STRING),
             Token(TypeIdentifier.VOID) -> stateVariable()
             Token(ExpressionSymbol.SEMICOLON) -> null
             else -> {

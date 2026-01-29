@@ -10,9 +10,16 @@ repositories {
 }
 
 dependencies {
-    implementation(files("../JSON/target/JSON-1.0-SNAPSHOT.jar"))
+    implementation(files(
+        "../JSON/target/JSON-1.0-SNAPSHOT.jar",
+        "../Topark/build/libs/Topark-1.0-SNAPSHOT.jar"
+    ))
 }
 
 kotlin {
     jvmToolchain(21)
+}
+
+tasks {
+
 }

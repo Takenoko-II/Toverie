@@ -1,8 +1,6 @@
 package com.gmail.takenokoii78.toverie.check
 
-class ToverieVariable(
+class CheckerVariable(
     val type: ToverieType,
-    val expression: ToverieExpression,
     val initialAssigned: Boolean
 )
-

@@ -15,7 +15,7 @@ enum class TypeIdentifier(val value: String) {
     FLOAT("float"),
     DOUBLE("double"),
     CHAR("char"),
-    STR("str"),
+    STRING("string"),
     ARRAY("array"),
     LIST("list"),
     MAP("map"),

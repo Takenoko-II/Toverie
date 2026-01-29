@@ -17,7 +17,7 @@ fun main() {
         # comment
         c("data modify entity @s a");
         int x = 1 + 2 * (3 - 4);
-        int[] a = [x, 1, 2, 3];
+        int[] a = new int[]{x, 1, 2, 3};
         println("Hello, World!");
     }
     """.trimIndent()).analyze()).parse()
