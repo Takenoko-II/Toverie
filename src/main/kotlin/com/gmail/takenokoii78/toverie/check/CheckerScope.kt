@@ -7,6 +7,8 @@ class CheckerScope private constructor(private val parent: CheckerScope?, privat
 
     private val functions = CheckerFunctions()
 
+    private val labels = mutableSetOf<String>()
+
     constructor(parent: CheckerScope, vararg flags: ScopeFlag): this(parent, flags.toMutableSet())
 
     constructor(vararg flags: ScopeFlag): this(null, flags.toMutableSet())
@@ -49,15 +51,32 @@ class CheckerScope private constructor(private val parent: CheckerScope?, privat
             functions.get(identifier).lookup(arguments) != null
         }
         else {
-            false
+            parent?.hasSignature(identifier, arguments) ?: false
         }
     }
 
     fun getSignature(identifier: String, arguments: List<ToverieType>): CheckerSignature {
-        return functions.get(identifier).lookup(arguments) ?: throw ToverieCheckException("関数シグネチャ '$identifier(${arguments.joinToString(", ")})' は存在しません")
+        return if (functions.has(identifier)) {
+            functions.get(identifier).lookup(arguments) ?: throw ToverieCheckException("関数シグネチャ '$identifier(${arguments.joinToString(", ")})' は存在しません")
+        }
+        else {
+            parent?.getSignature(identifier, arguments) ?: throw ToverieCheckException("関数シグネチャ '$identifier(${arguments.joinToString(", ")})' は存在しません")
+        }
     }
 
     fun addSignature(identifier: String, signature: CheckerSignature) {
         functions.register(identifier, signature)
+    }
+
+    fun hasLabel(name: String): Boolean {
+        return if (labels.contains(name)) true else parent?.hasLabel(name) ?: false
+    }
+
+    fun addLabel(name: String) {
+        if (hasLabel(name)) {
+            throw ToverieCheckException("ラベル '$name' は既に可視スコープに存在します")
+        }
+
+        labels.add(name)
     }
 }

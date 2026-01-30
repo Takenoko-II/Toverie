@@ -902,6 +902,12 @@ class Parser(private val tokens: List<Token>) {
 
     private fun forLoop(): UntypedStatementNode {
         expect(Token(Keyword.FOR))
+
+        val label = if (nextIf(Token(ExpressionSymbol.COLON))) {
+            readWord()
+        }
+        else null
+
         val hasParenthesis = nextIf(Token(ExpressionSymbol.PARENTHESIS_START))
 
         if (peek() == Token(Keyword.VAR) || peek() == Token(Keyword.CONST)) {
@@ -916,7 +922,7 @@ class Parser(private val tokens: List<Token>) {
 
             val block = if (peek() == Token(ExpressionSymbol.BRACE_START)) block() else UntypedBlockNode(listOfNotNull(statement()))
 
-            return UntypedForStatementNode(initialization, condition, post, block)
+            return UntypedForStatementNode(label, initialization, condition, post, block)
         }
         else if (peek().type == TokenType.WORD) {
             val identifier = readWord()
@@ -927,7 +933,7 @@ class Parser(private val tokens: List<Token>) {
 
             val block = if (peek() == Token(ExpressionSymbol.BRACE_START)) block() else UntypedBlockNode(listOfNotNull(statement()))
 
-            return UntypedForInStatementNode(identifier, iterable, block)
+            return UntypedForInStatementNode(label, identifier, iterable, block)
         }
         else {
             throw ToverieParseException("for文の解析に失敗しました: 無効な文字列 (${peek()}) を検出しました")
@@ -936,25 +942,31 @@ class Parser(private val tokens: List<Token>) {
 
     private fun whileLoop(): UntypedWhileStatementNode {
         expect(Token(Keyword.WHILE))
+
+        val label = if (nextIf(Token(ExpressionSymbol.COLON))) {
+            readWord()
+        }
+        else null
+
         val hasParenthesis = nextIf(Token(ExpressionSymbol.PARENTHESIS_START))
         val condition = expression()
         if (hasParenthesis) expect(Token(ExpressionSymbol.PARENTHESIS_END))
 
         val block = if (peek() == Token(ExpressionSymbol.BRACE_START)) block() else UntypedBlockNode(listOfNotNull(statement()))
 
-        return UntypedWhileStatementNode(condition, block)
+        return UntypedWhileStatementNode(label, condition, block)
     }
 
     private fun labelledContinue(): UntypedContinueStatementNode {
         expect(Token(Keyword.CONTINUE))
-        val label = readWord()
+        val label = if (peek().type == TokenType.WORD) readWord() else null
         nextIf(Token(ExpressionSymbol.SEMICOLON))
         return UntypedContinueStatementNode(label)
     }
 
     private fun labelledBreak(): UntypedBreakStatementNode {
         expect(Token(Keyword.BREAK))
-        val label = readWord()
+        val label = if (peek().type == TokenType.WORD) readWord() else null
         nextIf(Token(ExpressionSymbol.SEMICOLON))
         return UntypedBreakStatementNode(label)
     }

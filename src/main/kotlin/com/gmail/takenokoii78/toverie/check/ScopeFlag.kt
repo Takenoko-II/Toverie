@@ -1,6 +1,6 @@
-package com.gmail.takenokoii78.toverie.check;
+package com.gmail.takenokoii78.toverie.check
 
-public enum ScopeFlag {
+enum class ScopeFlag {
     ITERATION,
     FUNCTION
 }

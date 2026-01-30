@@ -2,10 +2,7 @@ package com.gmail.takenokoii78.toverie.check
 
 import java.util.Objects
 
-class CheckerFunctionArgument(
-    val name: String,
-    val type: ToverieType
-)
+class CheckerFunctionArgument(val name: String, val type: ToverieType)
 
 class CheckerSignature(val returns: ToverieType, val arguments: List<CheckerFunctionArgument>) {
     constructor(returns: ToverieType, vararg arguments: ToverieType) : this(

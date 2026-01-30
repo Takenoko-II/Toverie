@@ -18,6 +18,10 @@ open class ToverieType(val identifier: String, val parameters: List<ToverieType>
         return true
     }
 
+    override fun toString(): String {
+        return if (parameters.isEmpty()) identifier else "$identifier<${parameters.joinToString(", ")}>"
+    }
+
     companion object {
         val BOOL = ToverieType(TypeIdentifier.BOOL.value, listOf())
 

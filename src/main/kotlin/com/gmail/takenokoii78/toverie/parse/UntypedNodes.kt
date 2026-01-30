@@ -122,6 +122,7 @@ class UntypedIfElseStatementNode(
 ) : UntypedStatementNode()
 
 class UntypedForStatementNode(
+    val label: String?,
     val initialization: UntypedVarConstStatementNode,
     val condition: UntypedExpressionNode,
     val post: UntypedExpressionNode,
@@ -129,22 +130,24 @@ class UntypedForStatementNode(
 ) : UntypedStatementNode()
 
 class UntypedForInStatementNode(
+    val label: String?,
     val identifier: String,
     val collection: UntypedExpressionNode,
     val block: UntypedBlockNode
 ) : UntypedStatementNode()
 
 class UntypedWhileStatementNode(
+    val label: String?,
     val condition: UntypedExpressionNode,
     val block: UntypedBlockNode
 ) : UntypedStatementNode()
 
 class UntypedContinueStatementNode(
-    val labelName: String
+    val labelName: String?
 ) : UntypedStatementNode()
 
 class UntypedBreakStatementNode(
-    val labelName: String
+    val labelName: String?
 ) : UntypedStatementNode()
 
 class UntypedReturnStatementNode(

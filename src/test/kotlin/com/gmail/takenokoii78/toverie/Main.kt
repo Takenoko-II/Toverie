@@ -2,8 +2,9 @@ package com.gmail.takenokoii78.toverie;
 
 import com.gmail.takenokoii78.json.JSONFile
 import com.gmail.takenokoii78.toverie.analyze.LexicalAnalyzer
+import com.gmail.takenokoii78.toverie.check.ToverieNode
+import com.gmail.takenokoii78.toverie.check.TypeChecker
 import com.gmail.takenokoii78.toverie.parse.Parser
-import com.gmail.takenokoii78.toverie.parse.UntypedNode
 
 fun main() {
     println("Hello, World!")
@@ -12,17 +13,36 @@ fun main() {
 
     if (!file.exists()) file.create()
 
-    val a = Parser(LexicalAnalyzer("""
+    val a = TypeChecker(Parser(LexicalAnalyzer("""
+    void command(s: string) {
+        
+    }
+    
+    void println(s: string) {
+    
+    }
+
     int main() {
         # comment
-        c("data modify entity @s a");
-        int x = 1 + 2 * (3 - 4);
-        int[] a = new int[]{x, 1, 2, 3};
-        println("Hello, World!");
-    }
-    """.trimIndent()).analyze()).parse()
+        
+        command("data modify entity @s a");
 
-    val reflector = JSONReflector(UntypedNode::class.java)
+        int x = 1 + 2 * (3 - 4);
+
+        println("Hello, World!");
+        
+        "aiueo".length + x;
+
+        for:a i in [1, 2, 3] {
+            i++;
+            continue a;
+        }
+
+        return 1;
+    }
+    """).analyze()).parse()).check()
+
+    val reflector = JSONReflector(ToverieNode::class.java)
 
     file.write(reflector.reflect(a))
 }

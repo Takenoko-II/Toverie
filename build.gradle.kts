@@ -11,8 +11,7 @@ repositories {
 
 dependencies {
     implementation(files(
-        "../JSON/target/JSON-1.0-SNAPSHOT.jar",
-        "../Topark/build/libs/Topark-1.0-SNAPSHOT.jar"
+        "../JSON/target/JSON-1.0-SNAPSHOT.jar"
     ))
 }
 
@@ -21,5 +20,7 @@ kotlin {
 }
 
 tasks {
-
+    withType<JavaCompile> {
+        options.encoding = "UTF-8"
+    }
 }
